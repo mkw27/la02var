@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://tally.so 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data:; connect-src https://tally.so; frame-src https://tally.so;">
+    <title>STORE_NAME — PRODUCT_NAME</title>
+
+    <!--
+      VARIANT 2: Dark Premium (Final)
+      - Gallery at top, all images horizontal scroll
+      - Dark background, gold accents, Cairo font
+      - Reviews section after description
+      - COD badges + refuse policy grouped at bottom
+      - CTA opens Tally directly
+      - Footer with Facebook credit link
+    -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --gold: #d4a853;
+            --gold-light: #e8c97a;
+            --gold-dark: #b8922e;
+            --bg: #0d0d0d;
+            --bg-card: #1a1a1a;
+            --bg-card-hover: #252525;
+            --text: #f0ece4;
+            --text-secondary: #b0aca0;
+            --text-muted: #7a766e;
+            --border: #2a2a2a;
+            --border-gold: #3d3520;
+            --radius: 8px;
+            --radius-lg: 16px;
+            --max-width: 680px;
+            --font: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            direction: rtl;
+            text-align: right;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0 16px 60px;
+        }
+
+        .page {
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        /* ===== STORE NAME ===== */
+        .store-header {
+            text-align: center;
+            padding: 28px 0 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--gold);
+        }
+
+        .header-divider {
+            width: 40px;
+            height: 2px;
+            background: var(--gold);
+            margin: 0 auto 20px;
+            border-radius: 1px;
+        }
+
+        /* ===== IMAGE GALLERY ===== */
+        .gallery-wrapper {
+            position: relative;
+            margin: 0 0 12px;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: #333 transparent;
+        }
+
+        .gallery::-webkit-scrollbar {
+            height: 4px;
+        }
+        .gallery::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .gallery::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+
+        .gallery img {
+            flex: 0 0 auto;
+            width: 85%;
+            max-width: 500px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            scroll-snap-align: start;
+            border: 1px solid var(--border);
+            background: #1a1a1a;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        .scroll-hint {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        .scroll-hint span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #333;
+        }
+        .scroll-hint span:first-child {
+            background: var(--gold);
+            width: 16px;
+            border-radius: 10px;
+        }
+
+        /* ===== PRODUCT NAME & PRICE ===== */
+        .product-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin: 14px 0 4px;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        /* ===== DESCRIPTION ===== */
+        .description {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .description p + p {
+            margin-top: 14px;
+        }
+
+        .description strong {
+            color: var(--gold-light);
+        }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ===== REVIEWS SECTION ===== */
+        .reviews {
+            margin-bottom: 28px;
+        }
+
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 18px 20px;
+            margin-bottom: 10px;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--border-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--gold);
+            flex-shrink: 0;
+        }
+
+        .review-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .review-city {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .review-stars {
+            color: var(--gold);
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .review-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .review-verified {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--gold-dark);
+            border: 1px solid var(--border-gold);
+            border-radius: 9999px;
+            padding: 2px 10px;
+            margin-top: 6px;
+        }
+
+        /* ===== BOTTOM SECTION (COD + CTA + REFUSE) ===== */
+        .bottom-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px 20px;
+            margin-bottom: 16px;
+        }
+
+        /* ===== COD BADGES ===== */
+        .cod-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            padding: 8px 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .badge .icon {
+            font-size: 1rem;
+        }
+
+        /* ===== CTA BUTTON ===== */
+        .cta-button {
+            display: block;
+            width: 100%;
+            padding: 18px 24px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0d0d0d;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: var(--radius);
+            cursor: pointer;
+            text-align: center;
+            font-family: var(--font);
+            transition: opacity 0.2s, transform 0.1s;
+            box-shadow: 0 4px 20px rgba(212, 168, 83, 0.25);
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+        }
+
+        .cta-button:hover {
+            opacity: 0.92;
+        }
+        .cta-button:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== REFUSE POLICY ===== */
+        .refuse-note {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #555;
+            padding-top: 16px;
+            width: 100%;
+            max-width: var(--max-width);
+        }
+
+        .footer a {
+            color: var(--gold);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer a:hover {
+            color: var(--gold-light);
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .store-header {
+                font-size: 1rem;
+                padding-top: 20px;
+            }
+            .product-name {
+                font-size: 1.35rem;
+            }
+            .product-price {
+                font-size: 1.25rem;
+            }
+            .gallery img {
+                width: 90%;
+            }
+            .cta-button {
+                font-size: 1.1rem;
+                padding: 16px 20px;
+            }
+            .description {
+                padding: 18px;
+                font-size: 0.9rem;
+            }
+            .review-card {
+                padding: 14px 16px;
+            }
+            .bottom-section {
+                padding: 18px 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+
+        <!-- ===== STORE NAME ===== -->
+        <header class="store-header">اِسْمْ اَلْمَتْجَرْ</header>
+        <div class="header-divider"></div>
+
+        <!-- ===== IMAGE GALLERY ===== -->
+        <div class="gallery-wrapper">
+            <div class="gallery" aria-label="صور المنتج" role="region">
+                <img src="https://placehold.co/600x600/1a1a1a/d4a853?text=صورة+1" alt="صورة المنتج 1" loading="eager">
+                <img src="https://placehold.co/600x600/1a1a1a/d4a853?text=صورة+2" alt="صورة المنتج 2" loading="lazy">
+                <img src="https://placehold.co/600x600/1a1a1a/d4a853?text=صورة+3" alt="صورة المنتج 3" loading="lazy">
+                <img src="https://placehold.co/600x600/1a1a1a/d4a853?text=صورة+4" alt="صورة المنتج 4" loading="lazy">
+                <img src="https://placehold.co/600x600/1a1a1a/d4a853?text=صورة+5" alt="صورة المنتج 5" loading="lazy">
+            </div>
+            <div class="scroll-hint" aria-hidden="true">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+
+        <!-- ===== PRODUCT NAME & PRICE ===== -->
+        <h1 class="product-name">اِسْمْ اَلْمُنْتَجْ</h1>
+        <p class="product-price">XXXX د.ج</p>
+
+        <!-- ===== DESCRIPTION ===== -->
+        <div class="description">
+            <p>
+                <strong>وَصْفْ اَلْمُنْتَجْ:</strong> اُكْتُبْ تَفَاصِيلَ وَاضِحَةً عَنْ اَلْمُنْتَجْ —
+                اَلْمَوَادّ اَلْمُسْتَخْدَمَة، اَلْأَبْعَاد، اَلْأَلْوَان اَلْمُتَاحَة، وَأَيّ
+                مِيزَاتٍ أُخْرَى تَهُمّ اَلْمُشْتَرِي.
+            </p>
+            <p>
+                أَضِفْ فَقْرَةً ثَانِيَةً هُنَا لِشَرْحِ اَلْمَزَايَا اَلرَّئِيسِيَّة.
+                رَكِّزْ عَلَى مَا يَجْعَلُ هَذَا اَلْمُنْتَجْ مُخْتَلِفًا أَوْ أَفْضَلَ
+                مِنْ اَلْبَدَائِلِ اَلْمُتَاحَةِ فِي اَلسُّوقِ.
+            </p>
+        </div>
+
+        <!-- ===== CUSTOMER REVIEWS ===== -->
+        <div class="reviews">
+            <p class="section-title">⭐ آراء العملاء</p>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">ك</div>
+                    <div>
+                        <div class="review-name">كريم من وهران</div>
+                        <div class="review-city">وهران</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    "وصلني المنتج في 3 أيام. مطابق للصور بالضبط. الجودة ممتازة والسعر مناسب جداً. أنصح به."
+                </p>
+                <span class="review-verified">✅ عملية شراء موثقة</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">س</div>
+                    <div>
+                        <div class="review-name">سارة من الجزائر العاصمة</div>
+                        <div class="review-city">الجزائر العاصمة</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    "خدمة التوصيل سريعة ومحترمة. عاينت المنتج قبل الدفع وكان تماماً كما في الوصف. سأطلب مرة أخرى."
+                </p>
+                <span class="review-verified">✅ عملية شراء موثقة</span>
+            </div>
+
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">م</div>
+                    <div>
+                        <div class="review-name">محمد من قسنطينة</div>
+                        <div class="review-city">قسنطينة</div>
+                    </div>
+                </div>
+                <div class="review-stars">★★★★☆</div>
+                <p class="review-text">
+                    "منتج جيد جداً. التوصيل كان سريعاً. العبوة كانت محمية بشكل ممتاز. السعر معقول."
+                </p>
+                <span class="review-verified">✅ عملية شراء موثقة</span>
+            </div>
+        </div>
+
+        <!-- ===== BOTTOM SECTION: COD + CTA + REFUSE ===== -->
+        <div class="bottom-section">
+            <div class="cod-badges">
+                <div class="badge">
+                    <span class="icon">🚚</span>
+                    <span>توصيل سريع لـ 58 ولاية</span>
+                </div>
+                <div class="badge">
+                    <span class="icon">💵</span>
+                    <span>الدفع عند الاستلام</span>
+                </div>
+                <div class="badge">
+                    <span class="icon">✅</span>
+                    <span>تحقق من المنتج قبل الدفع</span>
+                </div>
+            </div>
+
+            <button id="cta-order" class="cta-button" type="button">
+                🛒 اُطْلُبْ اَلْآنْ
+            </button>
+
+            <p class="refuse-note">
+                🔒 تَسْتَطِيعُ مُعَايَنَةَ اَلْمُنْتَجْ قَبْلَ اَلدَّفْعِ.
+                إِذَا لَمْ يَكُنْ كَمَا فِي اَلصُّوَرِ، يُمْكِنُكَ رَفْضُ اِسْتِلَامِ اَلطَّرْدِ دُونَ أَيّ رَسُوم.
+            </p>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <footer class="footer">
+            © 2026 اِسْمْ اَلْمَتْجَرْ. تصميم وتطوير
+            <a href="YOUR_FACEBOOK_URL_HERE" target="_blank" rel="noopener noreferrer">Nassim</a>
+        </footer>
+    </div>
+
+    <!-- ===== TALLY EMBED ===== -->
+    <script async src="https://tally.so/widgets/embed.js"></script>
+
+    <script>
+        var TALLY_FORM_URL = 'https://tally.so/r/REPLACE_WITH_YOUR_FORM_ID';
+
+        var ctaButton = document.getElementById('cta-order');
+
+        function openTallyForm() {
+            if (!TALLY_FORM_URL || TALLY_FORM_URL.indexOf('REPLACE_WITH_YOUR_FORM_ID') !== -1) {
+                alert('خطأ: لم يتم تكوين رابط نموذج الطلب. يرجى التواصل مع البائع.');
+                console.error('TALLY_FORM_URL is not configured.');
+                return;
+            }
+            var popupWidth = 480, popupHeight = 700;
+            var left = (window.screen.width - popupWidth) / 2;
+            var top = (window.screen.height - popupHeight) / 2;
+            var popup = window.open(TALLY_FORM_URL, 'tally-form', 'width=' + popupWidth + ',height=' + popupHeight + ',left=' + left + ',top=' + top + ',resizable=yes,scrollbars=yes');
+            if (!popup || popup.closed || typeof popup.closed === 'undefined') {
+                window.location.href = TALLY_FORM_URL;
+            }
+        }
+
+        ctaButton.addEventListener('click', openTallyForm);
+        ctaButton.addEventListener('touchstart', function(e) { e.preventDefault(); ctaButton.click(); });
+
+        window.addEventListener('error', function(event) {
+            console.error('Landing page error:', event.message, 'at', event.filename, 'line', event.lineno);
+        });
+    </script>
+</body>
+</html>
